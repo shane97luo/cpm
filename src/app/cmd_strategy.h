@@ -1,17 +1,18 @@
 #ifndef _CMD_STRATEGY_H
 #define _CMD_STRATEGY_H
 
+#include "cmd_receiver.h"
 #include <iostream>
 #include <string>
 #include <vector>
 
 // 接收者类
-class Receiver {
-public:
-  void createRepository(const std::string &repo_name);
+// class Receiver {
+// public:
+//   void createRepository(const std::string &repo_name);
 
-  void addModule(const std::string &module_name);
-};
+//   void addModule(const std::string &module_name);
+// };
 
 // 命令抽象类
 class Command {

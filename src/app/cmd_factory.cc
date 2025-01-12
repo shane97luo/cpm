@@ -1,4 +1,5 @@
 #include "cmd_factory.h"
+#include "cmd_receiver.h"
 
 static Receiver sReceiver;
 

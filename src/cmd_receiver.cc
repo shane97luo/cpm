@@ -43,8 +43,9 @@ void Receiver::createRepository(const std::string &repo_name) {
 
   std::filesystem::path repo_path = repo_name;
 
-  if (!std::filesystem::exists(repo_path)) {
+  if (std::filesystem::exists(repo_path)) {
     std::cout << "dir exists, fail to create " << repo_path << std::endl;
+    return;
   }
 
   std::filesystem::create_directory(repo_name);
@@ -54,7 +55,7 @@ void Receiver::createRepository(const std::string &repo_name) {
 
   std::ofstream file(file_cmake);
   if (file.is_open()) {
-    file << R"(cmake_minimum_required(VERSION 3.15))";
+    file << R"(cmake_minimum_required(VERSION 3.20))";
     file << "\n\n";
 
     file << R"(project( )" << repo_name;
@@ -81,4 +82,30 @@ void Receiver::createRepository(const std::string &repo_name) {
 
 void Receiver::addModule(const std::string &module_name) {
   std::cout << "Adding module: " << module_name << std::endl;
+
+  std::filesystem::path mod_path = module_name;
+
+  if (std::filesystem::exists(mod_path)) {
+    std::cout << "dir exists, fail to create " << mod_path << std::endl;
+    return;
+  }
+
+  std::filesystem::create_directory(module_name);
+  std::cout << "Created repository: " << mod_path << std::endl;
+
+  std::filesystem::path file_cmake = mod_path / "CMakeLists.txt";
+
+  std::ofstream file(file_cmake);
+  if (file.is_open()) {
+    file << R"(cmake_minimum_required(VERSION 3.20))";
+    file << "\n\n";
+    file << R"(project( )" << module_name;
+    file << R"( LANGUAGES C CXX))";
+    file << "\n\n";
+    file << R"(add_library(${PROJECT_NAME}))";
+    file << "\n\n";
+    file << R"(target_sources(${PROJECT_NAME} PRIVATE)";
+    file << R"(    export.cc)";
+    file << R"())";
+  }
 }

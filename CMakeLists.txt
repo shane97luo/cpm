@@ -18,6 +18,8 @@ configure_file(
 )
 
 
+set(SETUP_RESOURCE_PATH    ${PROJECT_SOURCE_DIR}/setup/resource)
+
 cmrc_add_resource_library(cpm-rc
   ALIAS cpm::rc
   NAMESPACE cpm

@@ -6,14 +6,6 @@
 #include <string>
 #include <vector>
 
-// 接收者类
-// class Receiver {
-// public:
-//   void createRepository(const std::string &repo_name);
-
-//   void addModule(const std::string &module_name);
-// };
-
 // 命令抽象类
 class Command {
 public:
@@ -28,7 +20,7 @@ private:
   std::string _repo_name;
 
 public:
-  CreateRepositoryCommand(Receiver *r, const std::string &name);
+  CreateRepositoryCommand(Receiver *receiver, const std::string &name);
 
   void execute() override;
 };
@@ -36,11 +28,11 @@ public:
 // 增加模块具体命令类
 class AddModuleCommand : public Command {
 private:
-  Receiver *receiver;
+  Receiver *_receiver;
   std::string _module_name;
 
 public:
-  AddModuleCommand(Receiver *r, const std::string &name);
+  AddModuleCommand(Receiver *receiver, const std::string &name);
 
   void execute() override;
 };

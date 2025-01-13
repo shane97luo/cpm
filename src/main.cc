@@ -9,7 +9,11 @@
 #include <string>
 #include <thread>
 
+#include "ccpm_config.h"
+
 int main(int argc, char *argv[]) {
+
+  std::cout << "version:" << PROJECT_VERSION << std::endl;
   cmdline::parser a;
 
   a.add("new", 'n', "new a program", false, std::string());

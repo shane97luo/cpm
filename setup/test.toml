@@ -1,0 +1,11 @@
+file = "daemon"
+
+[[awake]]
+name = "test"
+path = "/usr/local/bin/test"
+
+[[awake]]
+name = "test"
+path = "/usr/local/bin/test"
+
+

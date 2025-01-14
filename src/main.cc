@@ -2,6 +2,7 @@
 #include "cmd_strategy.h"
 #include "cmdline/cmdline.h"
 #include <ctime>
+#include <fstream>
 #include <iomanip>
 #include <memory>
 #include <ostream>
@@ -10,6 +11,47 @@
 #include <thread>
 
 #include "ccpm_config.h"
+
+#include "3rdparty/toml11/single_include/toml.hpp"
+
+struct AwakeProgram {
+  AwakeProgram(const toml::value &v)
+      : program(toml::find_or<std::string>(v, "program", "")),
+        path(toml::find_or<std::string>(v, "path", "")),
+        parameter(toml::find_or<std::string>(v, "parameter", "")) {}
+  std::string program;
+  std::string path;
+  std::string parameter;
+};
+
+void parseToml(const std::string &path) {
+
+  try {
+    // 从文件中读取 TOML 数据
+    std::ifstream ifs(path);
+    auto root = toml::parse(ifs);
+
+    // 获取 file 属性
+    const auto &file = toml::find<std::string>(root, "file");
+    std::cout << "File: " << file << std::endl;
+
+    const auto awake_programs =
+        toml::find<std::vector<AwakeProgram>>(root, "awake");
+
+    std::cout << "awake size:" << awake_programs.size() << std::endl;
+
+    for (auto &prog : awake_programs) {
+      std::cout << "awake size:" << prog.program << prog.path << prog.parameter
+                << std::endl;
+    }
+
+    // 获取 awake 数组
+  } catch (const toml::syntax_error &e) {
+    std::cerr << "Syntax error: " << e.what() << std::endl;
+  } catch (const toml::type_error &e) {
+    std::cerr << "Type error: " << e.what() << std::endl;
+  }
+}
 
 int main(int argc, char *argv[]) {
 
